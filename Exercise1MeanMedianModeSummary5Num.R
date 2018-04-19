@@ -15,3 +15,13 @@ if((N %% 2) == 0) {
 } else {
   print(paste("Mi mediana calculada es", HS_sorted[(N+1)/2]))
 }
+
+# five numbers (Tukey)
+fivenum(df$HS)
+
+# One by one - manually
+min(df$HS)
+quantile(df$HS, 0.25) # Mediana del "bottom half"
+median(df$HS)
+quantile(df$HS, 0.75) # Mediana del "top half"
+max(df$HS)
