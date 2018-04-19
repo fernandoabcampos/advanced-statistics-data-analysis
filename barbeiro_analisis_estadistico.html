@@ -170,11 +170,23 @@ Calcular la media, mediana y el sumario de cinco números (de Tukey) del valor H
 </p>
 <div id="respuesta" class="section level3">
 <h3>Respuesta</h3>
-<pre class="r"><code># Media de Happiness Score
+<pre class="r"><code>N &lt;- length(df$HS)
+# Media de Happiness Score
 mean(df$HS) # Using function</code></pre>
 <pre><code>## [1] 5.382185</code></pre>
-<pre class="r"><code>print(sum(df$HS)/length(df$HS)) # Calculating</code></pre>
+<pre class="r"><code>sum(df$HS)/N # Manually calculating</code></pre>
 <pre><code>## [1] 5.382185</code></pre>
+<pre class="r"><code>#Mediana
+median(df$HS)</code></pre>
+<pre><code>## [1] 5.314</code></pre>
+<pre class="r"><code>HS_sorted &lt;- sort(df$HS)
+
+if((N %% 2) == 0) {
+  print(paste(&quot;Mi mediana calculada es&quot;, (HS_sorted[floor((N+1)/2)] + HS_sorted[ceiling((N+1)/2)]) / 2))
+} else {
+  print(paste(&quot;Mi mediana calculada es&quot;, HS_sorted[(N+1)/2]))
+}</code></pre>
+<pre><code>## [1] &quot;Mi mediana calculada es 5.314&quot;</code></pre>
 </div>
 </div>
 </div>
