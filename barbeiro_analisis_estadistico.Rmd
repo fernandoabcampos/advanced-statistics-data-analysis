@@ -1,0 +1,45 @@
+---
+title: "A2 - Análisis estadístico I"
+author: "Fernando Antonio Barbeiro Campos - fbarbeiro@uoc.edu"
+
+date: '`r format(Sys.Date(),"%e de %B, %Y")`'
+output:
+  html_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load_libraries, include=FALSE}
+library(knitr)
+```
+# Introducción
+
+<div style="text-align: justify">
+En esta actividad usaremos el fichero de **World Happiness Report** “limpio”, es decir, después del preproceso que se ha realizado. Una vez el fichero está preparado, pasaremos a realizar análisis propios de la estadística descriptiva e inferencial. Os proporcionamos el fichero **2016_clean.csv** para que todos trabajéis con el mismo fichero de datos, independientemente del resultado obtenido en la actividad 1.
+Recordamos que el fichero de datos recoge información sobre el grado de felicidad de países del mundo. El archivo contiene 157 registros y 13 variables. Estas variables son: *Country, Region, HR, HS, LCI, UCI, GpC, Family, LE, Freedom, GC, Generosity, DR donde HR: Happiness Rank, HS: Happiness Score, LCI y UCI*:
+*Lower y Upper Confidence Interval, GpC: GDP per Capita, LE: Life Expectancy, GC: Trust Government Corruption, DR: Dystopia.*
+Recordar que **no** se pueden realizar listados completos de los datos en la solución. El motivo es que se generan ficheros de salida con centenares de páginas que son muy difícil de trazar y corregir. Para comprobar las funcionalidades del código, podéis usar **head** y **tail** que solo muestran unas líneas del fichero.
+</div>
+
+```{r chunck1}
+# Loading the dataframe
+df <- read.csv("../2016_clean.csv")
+head(df)
+```
+
+# 1. Estadística Descriptiva
+<div style="text-align: justify">
+*A continuación, se estudiarán algunos valores centrales y de dispersión de algunas variables del fichero. Realizar los pasos que se indican a continuación.*
+</div>
+
+## 1.1 Valores centrales de HS (*Happiness Score*)
+<p style="text-align: justify">
+Calcular la media, mediana y el sumario de cinco números (de Tukey) del valor HS Happiness Score de toda la muestra. A continuación, visualizar la distribución de este valor en un diagrama de caja (boxplot) e interpretar el resultado. Finalmente, visualizar otro diagrama de caja donde se muestre el valor de HS para cada región. Es decir, en el mismo gráfico debe haber una caja para cada región representada en el fichero. Interpretar los gráficos.
+</p>
+### Respuesta
+
