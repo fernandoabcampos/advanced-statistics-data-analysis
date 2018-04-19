@@ -42,4 +42,10 @@ head(df)
 Calcular la media, mediana y el sumario de cinco números (de Tukey) del valor HS Happiness Score de toda la muestra. A continuación, visualizar la distribución de este valor en un diagrama de caja (boxplot) e interpretar el resultado. Finalmente, visualizar otro diagrama de caja donde se muestre el valor de HS para cada región. Es decir, en el mismo gráfico debe haber una caja para cada región representada en el fichero. Interpretar los gráficos.
 </p>
 ### Respuesta
+```{r chunck2}
+# Media de Happiness Score
+mean(df$HS) # Using function
+print(sum(df$HS)/length(df$HS)) # Calculating
+```
+
 
