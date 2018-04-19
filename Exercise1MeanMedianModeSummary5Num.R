@@ -29,4 +29,8 @@ max(df$HS)
 
 boxplot(df$HS)
 
+sapply(df,class)
+summary(df$Region)
 
+# Grafico para cada región representada
+boxplot(df$HS ~ df$Region, main="Happiness Score by region", ylab="Happiness Score", las=2)
