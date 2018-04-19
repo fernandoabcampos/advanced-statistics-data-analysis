@@ -1,3 +1,4 @@
+library("knitr")
 df <- read.csv("2016_clean.csv")
 head(df)
 
@@ -17,7 +18,7 @@ if((N %% 2) == 0) {
 }
 
 # five numbers (Tukey)
-fivenum(df$HS)
+summary(fivenum(df$HS))
 
 # One by one - manually
 min(df$HS)
@@ -25,3 +26,7 @@ quantile(df$HS, 0.25) # Mediana del "bottom half"
 median(df$HS)
 quantile(df$HS, 0.75) # Mediana del "top half"
 max(df$HS)
+
+boxplot(df$HS)
+
+

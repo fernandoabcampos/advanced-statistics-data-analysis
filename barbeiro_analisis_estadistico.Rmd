@@ -57,6 +57,20 @@ if((N %% 2) == 0) {
 } else {
   print(paste("Mi mediana calculada es", HS_sorted[(N+1)/2]))
 }
+
+# five numbers (Tukey)
+summary(fivenum(df$HS))
+
+# One by one - manually
+min(df$HS)
+quantile(df$HS, 0.25) # Mediana del "bottom half"
+median(df$HS)
+quantile(df$HS, 0.75) # Mediana del "top half"
+max(df$HS)
+
+boxplot(df$HS)
 ```
 
-
+<p style="text-align: justify">
+La interpretación del gráfico de caja sobre la distribución de los valores de *Happiness Score* es bastante sencilla. En la parte más inferior del gráfico tenemos la línea del **valor mínimo** (2.905, según hemos extraído en  el sumario de cinco números). Entonces el dibujo de la caja en sí empieza en el **primer cuartil Q1** - 4.404 - que representa 25%, o sea, la mediana del *bottom half* de nuestra muestra. La próxima línea que tenemos trazada más en negrita es **la mediana - 5.314**, y en la parte superior de la caja, el **cuartil Q3 75%** - 6.269 -> mediana del *top half* de la muestra. Finalmente, la última línea superior arriba de la caja llega hasta al **valor máximo** de la muestra que es 7.526.
+</p>
