@@ -119,3 +119,28 @@ median(i2)
 <p style="text-align: justify">
 En **i1** se observa un conjunto bastante uniformemente distribuído, sin *outliers*, por lo tanto, la media y mediana están cerca una de la otra. Sin embargo, cuando añadimos un *outlier* en un nuevo conjunto **i2**, los valores han cambiado muchísimo para la media - ha subido hacia al valor más alto. Mientras tanto, mediana mantuvo un valor en el medio del listado. Este es un ejemplo de que acabamos de decir sobre la afectación de **medidas poco robustas**.
 </p>
+
+##1.3 Cálculos de dispersión
+<p style="text-align: justify">
+Calcular la dispersión del valor de Happiness Score usando las siguientes medidas: rango intercuartílico, varianza y desviación típica.
+</p>
+
+### Respuesta
+
+```{r chunck6}
+happiness <- df$HS
+median(happiness)
+
+ri <- quantile(happiness,.75) - quantile(happiness,.25)
+print(paste("Rango Intercuartílico", ri))
+
+#rango intercuartílico
+IQR(happiness)
+
+#varianza (suma del cuadrado de las desviaciones c respecto media / N)
+var(happiness)
+
+# Desviacion tipica - raiz varianza
+sd(happiness) 
+```
+

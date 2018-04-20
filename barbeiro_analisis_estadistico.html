@@ -134,6 +134,9 @@ $(document).ready(function () {
 <li><a href="#calculos-sobre-generosity-e-identificacion-de-outliers">1.2 Cálculos sobre Generosity e identificación de outliers</a><ul>
 <li><a href="#respuesta-1">Respuesta</a></li>
 </ul></li>
+<li><a href="#calculos-de-dispersion">1.3 Cálculos de dispersión</a><ul>
+<li><a href="#respuesta-2">Respuesta</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -269,6 +272,30 @@ mean(i2)</code></pre>
 <p style="text-align: justify">
 En <strong>i1</strong> se observa un conjunto bastante uniformemente distribuído, sin <em>outliers</em>, por lo tanto, la media y mediana están cerca una de la otra. Sin embargo, cuando añadimos un <em>outlier</em> en un nuevo conjunto <strong>i2</strong>, los valores han cambiado muchísimo para la media - ha subido hacia al valor más alto. Mientras tanto, mediana mantuvo un valor en el medio del listado. Este es un ejemplo de que acabamos de decir sobre la afectación de <strong>medidas poco robustas</strong>.
 </p>
+</div>
+</div>
+<div id="calculos-de-dispersion" class="section level2">
+<h2>1.3 Cálculos de dispersión</h2>
+<p style="text-align: justify">
+Calcular la dispersión del valor de Happiness Score usando las siguientes medidas: rango intercuartílico, varianza y desviación típica.
+</p>
+<div id="respuesta-2" class="section level3">
+<h3>Respuesta</h3>
+<pre class="r"><code>happiness &lt;- df$HS
+median(happiness)</code></pre>
+<pre><code>## [1] 5.314</code></pre>
+<pre class="r"><code>ri &lt;- quantile(happiness,.75) - quantile(happiness,.25)
+print(paste(&quot;Rango Intercuartílico&quot;, ri))</code></pre>
+<pre><code>## [1] &quot;Rango Intercuartílico 1.865&quot;</code></pre>
+<pre class="r"><code>#rango intercuartílico
+IQR(happiness)</code></pre>
+<pre><code>## [1] 1.865</code></pre>
+<pre class="r"><code>#varianza (suma del cuadrado de las desviaciones c respecto media / N)
+var(happiness)</code></pre>
+<pre><code>## [1] 1.303418</code></pre>
+<pre class="r"><code># Desviacion tipica - raiz varianza
+sd(happiness) </code></pre>
+<pre><code>## [1] 1.141674</code></pre>
 </div>
 </div>
 </div>
