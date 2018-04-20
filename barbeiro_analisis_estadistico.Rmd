@@ -59,6 +59,8 @@ if((N %% 2) == 0) {
 }
 
 # five numbers (Tukey)
+fivenum(df$HS)
+# five numbers + media
 summary(fivenum(df$HS))
 
 # One by one - manually
@@ -82,3 +84,38 @@ summary(df$Region)
 boxplot(df$HS ~ df$Region, main="Happiness Score by Region", ylab="Happiness Score", las=2)
 ```
 
+##1.2 Cálculos sobre Generosity e identificación de outliers
+<p style="text-align: justify">
+Calcular la media, mediana y el sumario de cinco números (de Tukey) del valor Generosity de toda la muestra. Visualizar en un diagrama de caja (boxplot) e interpretar el resultado. ¿Existe algún outlier observable en HS o en Generosity? ¿Cómo afectan los outliers a los valores centrales calculados?
+</p>
+
+### Respuesta
+```{r chunck4}
+mean(df$Generosity) 
+median(df$Generosity)
+fivenum(df$Generosity)
+summary(fivenum(df$Generosity))
+boxplot(df$Generosity, main="Box plot Generosity")
+```
+<p style="text-align: justify">
+Nuestro boxplot permite observar algunos valores outliers en *Generosity*: empezamos por la parte de abajo del gráfico: considerando que es un conjunto de datos que ha pasado por el preproceso (o sea, está limpio), las entradas de **valores mínimos** están en 0.0. El primer cuartil **Q1** empieza en 0.1546, con la línea **mediana** en negrita a 0.2225. Mientras tanto, el **Q3** representa un valor de 0.3119. Y por arriba de la línea max, **hay una serie de *outliers*** alrededor del valor 0.6 y llegando hasta el **máximo** de 0.8197.
+</p>
+<p style="text-align: justify">
+Los *outliers* afectan especialmente a la media (**poco robusta**). Y cuando la muestra es pequeña, el efecto se nota aún más acentuado. Para representar que puede pasar, veamos un ejemplo:
+</p>
+
+
+```{r chunck5}
+#¿Cómo afectan los outliers a los valores centrales calculados?
+i1 <- c(1,1,1,2,1,1,2,1,1,2,1,3,3,2,3,2,2,4,1,1)
+mean(i1)
+median(i1)
+
+i2 <- c(i1, 150)
+mean(i2)
+median(i2)
+```
+
+<p style="text-align: justify">
+En **i1** se observa un conjunto bastante uniformemente distribuído, sin *outliers*, por lo tanto, la media y mediana están cerca una de la otra. Sin embargo, cuando añadimos un *outlier* en un nuevo conjunto **i2**, los valores han cambiado muchísimo para la media - ha subido hacia al valor más alto. Mientras tanto, mediana mantuvo un valor en el medio del listado. Este es un ejemplo de que acabamos de decir sobre la afectación de **medidas poco robustas**.
+</p>
