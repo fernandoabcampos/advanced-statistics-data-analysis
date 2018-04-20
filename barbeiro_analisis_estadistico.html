@@ -137,7 +137,14 @@ $(document).ready(function () {
 <li><a href="#calculos-de-dispersion">1.3 Cálculos de dispersión</a><ul>
 <li><a href="#respuesta-2">Respuesta</a></li>
 </ul></li>
-<li><a href="#calculos-de-dispersion-manuales">1.4 Cálculos de dispersión manuales</a></li>
+<li><a href="#calculos-de-dispersion-manuales">1.4 Cálculos de dispersión manuales</a><ul>
+<li><a href="#respuesta-3">Respuesta</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#estadistica-inferencial">2. Estadística Inferencial</a><ul>
+<li><a href="#media-de-hs-de-todos-los-paises">2.1 Media de HS de todos los países</a><ul>
+<li><a href="#escribir-la-hipotesis-nula-y-alternativa">2.1.1 Escribir la hipótesis nula y alternativa</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -307,6 +314,8 @@ Escribir una función denominada <strong>my.mean</strong> en R que calcule la me
 <p style="text-align: justify">
 <strong>Nota:</strong> el objetivo de esta pregunta es, por una parte, aprender a crear funciones en R. Las funciones son útiles cuando un determinado cálculo se debe realizar varias veces. En este caso, las funciones que calculan medias y varianzas ya están definidas en R, pero realizamos de nuevo estas funciones como ejemplo ilustrativo. El segundo objetivo de esta pregunta es comprender cómo se realiza el cálculo de la media y la varianza.
 </p>
+<div id="respuesta-3" class="section level3">
+<h3>Respuesta</h3>
 <pre class="r"><code>my.mean &lt;- function(x) {
   # media
   sum(x)/length(x)
@@ -332,6 +341,49 @@ my.validator(my.mean(df$HS), mean(df$HS), &quot;MEAN&quot;, &quot;HS&quot;)</cod
 <pre><code>## [1] &quot;Well done, the  VAR  for  HS  is  1.303418&quot;</code></pre>
 <pre class="r"><code>my.validator(my.var(df$Generosity), var(df$Generosity), &quot;VAR&quot;, &quot;Generosity&quot;)</code></pre>
 <pre><code>## [1] &quot;Well done, the  VAR  for  Generosity  is  0.017891&quot;</code></pre>
+<hr />
+</div>
+</div>
+</div>
+<div id="estadistica-inferencial" class="section level1">
+<h1>2. Estadística Inferencial</h1>
+<div style="text-align: justify">
+
+<div id="media-de-hs-de-todos-los-paises" class="section level2">
+<h2>2.1 Media de HS de todos los países</h2>
+<p style="text-align: justify">
+HS toma valores en una escala de 0 a 10, donde 10 es la máxima felicidad y 0 la mínima. ¿Podemos afirmar con un nivel de confianza del 99% que el valor medio de HS de todos los países del mundo es 5.0?
+</p>
+<p style="text-align: justify">
+Para poder responder a esta pregunta, aplicaremos los métodos de contrastes de hipótesis. Para ello, seguir los pasos que se indican a continuación.
+</p>
+<p style="text-align: justify">
+<strong>Nota:</strong> Para resolver esta pregunta y todas las siguientes del apartado de Estadística Inferencial, debéis hacer los cálculos manualmente, sin usar funciones de R que calculen el contraste directamente (del tipo t.test que se proporcionan desde R u otras similares que se puedan proporcionar en diferentes librerías). Podéis usar estas funciones de R sólo para comprobar vuestro resultado del cálculo manual.
+</p>
+<p style="text-align: justify">
+Como sugerencia, si lo deseáis, podéis crear una función propia que realice los cálculos y esta función la podréis usar a lo largo de la actividad (en el caso de que sea reutilizable).
+</p>
+<div id="escribir-la-hipotesis-nula-y-alternativa" class="section level3">
+<h3>2.1.1 Escribir la hipótesis nula y alternativa</h3>
+<div id="respuesta-4" class="section level4">
+<h4>Respuesta</h4>
+<div id="hipotesis-nula-h0" class="section level5">
+<h5>Hipótesis nula <em>H</em><sub>0</sub></h5>
+<p style="text-align: justify">
+Indica la hipótesis de partida, en este caso, la hipótesis de que los <em>HS</em> de todos los países del mundo es 5.0.
+</p>
+<p><strong>H<sub>0</sub> : μ = 5.0 (HS)</strong></p>
+<p><br /></p>
+</div>
+<div id="hipotesis-alternativa-h1" class="section level5">
+<h5>Hipótesis alternativa <em>H</em><sub>1</sub></h5>
+<p style="text-align: justify">
+Indica que se ha producido cambio con respecto a la situación propuesta inicialmente.
+</p>
+<p><strong>H<sub>1</sub> : μ <span class="math inline">\(\neq\)</span> 5.0 (HS)</strong></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 

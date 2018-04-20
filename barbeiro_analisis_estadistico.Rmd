@@ -153,7 +153,7 @@ A continuación, llamar a la función **my.var** para obtener el valor de varian
 <p style="text-align: justify">
 **Nota:** el objetivo de esta pregunta es, por una parte, aprender a crear funciones en R. Las funciones son útiles cuando un determinado cálculo se debe realizar varias veces. En este caso, las funciones que calculan medias y varianzas ya están definidas en R, pero realizamos de nuevo estas funciones como ejemplo ilustrativo. El segundo objetivo de esta pregunta es comprender cómo se realiza el cálculo de la media y la varianza.
 </p>
-
+### Respuesta
 ```{r chunck7}
 my.mean <- function(x) {
   # media
@@ -178,8 +178,43 @@ my.validator(my.mean(df$HS), mean(df$HS), "MEAN", "HS")
 my.validator(my.var(df$HS), var(df$HS), "VAR", "HS")
 my.validator(my.var(df$Generosity), var(df$Generosity), "VAR", "Generosity")
 ```
+<hr />
+# 2. Estadística Inferencial
+<div style="text-align: justify">
+
+## 2.1 Media de HS de todos los países
+<p style="text-align: justify">
+HS toma valores en una escala de 0 a 10, donde 10 es la máxima felicidad y 0 la mínima. ¿Podemos afirmar con un nivel de confianza del 99% que el valor medio de HS de todos los países del mundo es 5.0?
+</p>
+<p style="text-align: justify">
+Para poder responder a esta pregunta, aplicaremos los métodos de contrastes de hipótesis. Para ello, seguir los pasos que se indican a continuación.
+</p>
+<p style="text-align: justify">
+**Nota:** Para resolver esta pregunta y todas las siguientes del apartado de Estadística Inferencial, debéis hacer los cálculos manualmente, sin usar funciones de R que calculen el contraste directamente (del tipo t.test que se proporcionan desde R u otras similares que se puedan proporcionar en diferentes librerías). Podéis usar estas funciones de R sólo para comprobar vuestro resultado del cálculo manual.
+</p>
+<p style="text-align: justify">
+Como sugerencia, si lo deseáis, podéis crear una función propia que realice los cálculos y esta función la podréis usar a lo largo de la actividad (en el caso de que sea reutilizable).
+</p>
 
 
+### 2.1.1 Escribir la hipótesis nula y alternativa
+
+#### Respuesta
+##### Hipótesis nula *H*<sub>0</sub>
+<p style="text-align: justify">
+Indica la hipótesis de partida, en este caso, la hipótesis de que los *HS* de todos los países del mundo es 5.0.
+</p>
+
+**H<sub>0</sub> : &mu; = 5.0 (HS)**
+
+<br />
+
+##### Hipótesis alternativa *H*<sub>1</sub>
+<p style="text-align: justify">
+Indica que se ha producido cambio con respecto a la situación propuesta inicialmente.
+</p>
+
+**H<sub>1</sub> : &mu; $\neq$ 5.0 (HS)**
 
 
 
