@@ -137,6 +137,7 @@ $(document).ready(function () {
 <li><a href="#calculos-de-dispersion">1.3 Cálculos de dispersión</a><ul>
 <li><a href="#respuesta-2">Respuesta</a></li>
 </ul></li>
+<li><a href="#calculos-de-dispersion-manuales">1.4 Cálculos de dispersión manuales</a></li>
 </ul></li>
 </ul>
 </div>
@@ -297,6 +298,40 @@ var(happiness)</code></pre>
 sd(happiness) </code></pre>
 <pre><code>## [1] 1.141674</code></pre>
 </div>
+</div>
+<div id="calculos-de-dispersion-manuales" class="section level2">
+<h2>1.4 Cálculos de dispersión manuales</h2>
+<p style="text-align: justify">
+Escribir una función denominada <strong>my.mean</strong> en R que calcule la media de un vector numérico. Escribir otra función denominada <strong>my.var</strong> que calcule la varianza de un vector numérico. A continuación, llamar a la función <strong>my.var</strong> para obtener el valor de varianza de <em>HS</em> y de <em>Generosity</em>. Comprobar que el resultado sea el mismo que con la función correspondiente de R.
+</p>
+<p style="text-align: justify">
+<strong>Nota:</strong> el objetivo de esta pregunta es, por una parte, aprender a crear funciones en R. Las funciones son útiles cuando un determinado cálculo se debe realizar varias veces. En este caso, las funciones que calculan medias y varianzas ya están definidas en R, pero realizamos de nuevo estas funciones como ejemplo ilustrativo. El segundo objetivo de esta pregunta es comprender cómo se realiza el cálculo de la media y la varianza.
+</p>
+<pre class="r"><code>my.mean &lt;- function(x) {
+  # media
+  sum(x)/length(x)
+}
+
+my.var &lt;- function(x) {
+  # varianza muestral
+  media_x &lt;- my.mean(x)
+  sum((x - media_x)^2) / (length(x) - 1)
+}
+
+my.validator &lt;- function(x, y, operation, field) {
+  if(x == y){
+    print(paste(&quot;Well done, the &quot;,operation,&quot; for &quot;,field,&quot; is &quot;, round(x,6)))
+  } else {
+    print(paste(&quot;Error - the function defined for &quot;,operation, &quot; returned values: &quot;,x,&quot; != &quot;,y))
+  }
+}
+
+my.validator(my.mean(df$HS), mean(df$HS), &quot;MEAN&quot;, &quot;HS&quot;)</code></pre>
+<pre><code>## [1] &quot;Well done, the  MEAN  for  HS  is  5.382185&quot;</code></pre>
+<pre class="r"><code>my.validator(my.var(df$HS), var(df$HS), &quot;VAR&quot;, &quot;HS&quot;)</code></pre>
+<pre><code>## [1] &quot;Well done, the  VAR  for  HS  is  1.303418&quot;</code></pre>
+<pre class="r"><code>my.validator(my.var(df$Generosity), var(df$Generosity), &quot;VAR&quot;, &quot;Generosity&quot;)</code></pre>
+<pre><code>## [1] &quot;Well done, the  VAR  for  Generosity  is  0.017891&quot;</code></pre>
 </div>
 </div>
 

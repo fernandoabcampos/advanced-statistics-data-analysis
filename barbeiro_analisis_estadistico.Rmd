@@ -144,3 +144,44 @@ var(happiness)
 sd(happiness) 
 ```
 
+
+##1.4 Cálculos de dispersión manuales
+<p style="text-align: justify">
+Escribir una función denominada **my.mean** en R que calcule la media de un vector numérico. Escribir otra función denominada **my.var** que calcule la varianza de un vector numérico.
+A continuación, llamar a la función **my.var** para obtener el valor de varianza de *HS* y de *Generosity*. Comprobar que el resultado sea el mismo que con la función correspondiente de R.
+</p>
+<p style="text-align: justify">
+**Nota:** el objetivo de esta pregunta es, por una parte, aprender a crear funciones en R. Las funciones son útiles cuando un determinado cálculo se debe realizar varias veces. En este caso, las funciones que calculan medias y varianzas ya están definidas en R, pero realizamos de nuevo estas funciones como ejemplo ilustrativo. El segundo objetivo de esta pregunta es comprender cómo se realiza el cálculo de la media y la varianza.
+</p>
+
+```{r chunck7}
+my.mean <- function(x) {
+  # media
+  sum(x)/length(x)
+}
+
+my.var <- function(x) {
+  # varianza muestral
+  media_x <- my.mean(x)
+  sum((x - media_x)^2) / (length(x) - 1)
+}
+
+my.validator <- function(x, y, operation, field) {
+  if(x == y){
+    print(paste("Well done, the ",operation," for ",field," is ", round(x,6)))
+  } else {
+    print(paste("Error - the function defined for ",operation, " returned values: ",x," != ",y))
+  }
+}
+
+my.validator(my.mean(df$HS), mean(df$HS), "MEAN", "HS")
+my.validator(my.var(df$HS), var(df$HS), "VAR", "HS")
+my.validator(my.var(df$Generosity), var(df$Generosity), "VAR", "Generosity")
+```
+
+
+
+
+
+
+
