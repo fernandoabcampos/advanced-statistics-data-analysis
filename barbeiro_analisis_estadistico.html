@@ -151,6 +151,23 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="#media-de-hs-de-los-paises-europeos">2.2 Media de HS de los países europeos</a><ul>
 <li><a href="#escribir-la-hipotesis-nula-y-la-hipotesis-alternativa">2.2.1 Escribir la hipótesis nula y la hipótesis alternativa</a></li>
+<li><a href="#detallar-que-tipo-de-test-aplicareis">2.2.2 Detallar qué tipo de test aplicaréis</a></li>
+<li><a href="#realizar-los-calculos-del-estadistico-de-contraste-observado-y-el-valor-critico.">2.2.3 Realizar los cálculos del estadístico de contraste observado y el valor crítico.</a></li>
+<li><a href="#interpretar-el-resultado-1">2.2.4 Interpretar el resultado</a></li>
+<li><a href="#calcular-el-valor-p-e-interpretar-el-resultado">2.2.5 Calcular el valor p e interpretar el resultado</a></li>
+</ul></li>
+<li><a href="#intervalo-de-confianza-de-hs">2.3 Intervalo de confianza de HS</a></li>
+<li><a href="#contrastes-entre-regiones">2.4 Contrastes entre regiones</a><ul>
+<li><a href="#preparar-los-datos">2.4.1 Preparar los datos</a></li>
+<li><a href="#escribir-la-hipotesis-nula-y-alternativa-1">2.4.2 Escribir la hipótesis nula y alternativa</a></li>
+<li><a href="#detallar-que-tipo-de-contraste-usareis">2.4.3 Detallar qué tipo de contraste usaréis</a></li>
+<li><a href="#realizar-los-calculos-de-valor-observado-valor-critico-y-valor-p">2.4.4 Realizar los cálculos de valor observado, valor crítico y valor p</a></li>
+</ul></li>
+<li><a href="#contrastes-entre-anos">2.5 Contrastes entre años</a><ul>
+<li><a href="#especificar-que-tipo-de-contraste-aplicareis-y-justificar">2.5.1 Especificar qué tipo de contraste aplicaréis y justificar</a></li>
+<li><a href="#preparar-los-datos-para-aplicar-el-calculo">2.5.2 Preparar los datos para aplicar el cálculo</a></li>
+<li><a href="#escribir-la-hipotesis-nula-y-alternativa-2">2.5.3 Escribir la hipótesis nula y alternativa</a></li>
+<li><a href="#realizar-los-calculos-apropiados">2.5.4 Realizar los cálculos apropiados</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -437,8 +454,7 @@ Primeramente el calculo manual (y luego usando la libreria del p.test para valid
 <pre class="r"><code>mean_informed &lt;- 5.0
 z = my.contrast(df$HS, mean_informed)</code></pre>
 <pre><code>## [1] &quot;Contraste estadístico:  4.19450977801036&quot;</code></pre>
-<pre class="r"><code># 2 por ser bilateral
-2 * pt(-abs(z), df = length(df$HS) - 1)</code></pre>
+<pre class="r"><code>2 * pt(-abs(z), df = length(df$HS) - 1)</code></pre>
 <pre><code>## [1] 4.572195e-05</code></pre>
 <pre class="r"><code># Confirmando p value
 t.test(df$HS, mu=5.0, conf.level = 0.99)</code></pre>
@@ -490,8 +506,359 @@ Indica la hipótesis de partida, en este caso, la hipótesis de que los <em>HS</
 <p style="text-align: justify">
 Indica que se ha producido cambio con respecto a la situación propuesta inicialmente.
 </p>
-<p><strong>H<sub>1</sub> : μ <span class="math inline">\(\leq\)</span> 5.7 (HS)</strong></p>
+<p><strong>H<sub>1</sub> : μ <span class="math inline">\(\leq\)</span> 5.7 (HS-Europe)</strong></p>
 </div>
+</div>
+<div id="detallar-que-tipo-de-test-aplicareis" class="section level3">
+<h3>2.2.2 Detallar qué tipo de test aplicaréis</h3>
+<p style="text-align: justify">
+El tipo de test, otra vez, será el contraste de hipótesis, donde tendremos una funcción pivotal <em>Z</em> que será explicada más adelante en el codigo. Si dentro del margen de error que nos permitimos admitir (nivel de significación: inicialmente 1% y después 5%, conforme enunciado), hay coincidencia, aceptaremos la hipótesis y en caso contrario la rechazaremos.
+</p>
+<p style="text-align: justify">
+Dicho nuestro datos tienen: α = 0,01. / α = 0.05 en un según momento.
+</p>
+<p style="text-align: justify">
+He elegido el contraste de hipótesis porque mirando hacia el contraste de varianza, indicaba para la ocurrencia de más de 2 grupos - y lo mismo para análisis de muestreo.
+</p>
+</div>
+<div id="realizar-los-calculos-del-estadistico-de-contraste-observado-y-el-valor-critico." class="section level3">
+<h3>2.2.3 Realizar los cálculos del estadístico de contraste observado y el valor crítico.</h3>
+<p style="text-align: justify">
+He realizado un filtro para poder tener un subset con los datos que son especificamente de países de las regiones indicadas y he aplicado las mismas funciones anteriormente creadas. Veamos:
+</p>
+<pre class="r"><code>hs_europe &lt;- subset(df, df$Region==&quot;Central and Eastern Europe&quot; | df$Region==&quot;Western Europe&quot;)
+head(hs_europe)</code></pre>
+<pre><code>##       Country         Region HR    HS   LCI   UCI     GpC  Family      LE
+## 1     Denmark Western Europe  1 7.526 7.460 7.592 1.44178 1.16374 0.79504
+## 2 Switzerland Western Europe  2 7.509 7.428 7.590 1.52733 1.14524 0.86303
+## 3     Iceland Western Europe  3 7.501 7.333 7.669 1.42666 1.09610 0.86733
+## 4      Norway Western Europe  4 7.498 7.421 7.575 1.57744 1.12690 0.79579
+## 5     Finland Western Europe  5 7.413 7.351 7.475 1.40598 1.13464 0.81091
+## 7 Netherlands Western Europe  7 7.339 7.284 7.394 1.46468 1.10476 0.81231
+##   Freedom      GC Generosity      DR
+## 1 0.57941 0.44453    0.36171 2.73939
+## 2 0.58557 0.41203    0.28083 2.69463
+## 3 0.56624 0.14975    0.47678 2.83137
+## 4 0.59609 0.35776    0.37895 2.66465
+## 5 0.57104 0.41004    0.25492 2.82596
+## 7 0.55211 0.29927    0.47416 2.70749</code></pre>
+<pre class="r"><code>mean_europe_h0 &lt;- 5.7
+z = my.contrast(hs_europe$HS, mean_europe_h0)</code></pre>
+<pre><code>## [1] &quot;Contraste estadístico:  1.67771348629425&quot;</code></pre>
+<p style="text-align: justify">
+Dado que hay 2 <strong>niveles de significación</strong>, especificamente 1% y 5% que queremos mirar, quedaremos con:
+</p>
+<p><em>Valor crítico para 1%</em>: <strong>2.33</strong> <br /> <em>Valor crítico para 5%</em>: <strong>1.65</strong></p>
+<p style="text-align: justify">
+La manera para encontrar ha sido utilizando la tabla de distribución normal estandar. En el eje de filas, encontramos 2.3 y 1.6 y en el eje de columnas _.<em>3 y </em>._5.
+</p>
+</div>
+<div id="interpretar-el-resultado-1" class="section level3">
+<h3>2.2.4 Interpretar el resultado</h3>
+<p style="text-align: justify">
+En primer lugar, debemos decir que este es un resultado muy interesante, con un nivel de confianza 99% tendríamos como rechazado la hipótesis nula H<sub>0</sub>, esto porque el valor crítico de 2.3 es &gt; que el valor del estadístico de contraste 1.6777. Mientras tanto, con un nível de confianza 95% se podría confirmar / aceptar la hipótesis nula, o sea, <em>μ &gt; 5.7</em> porque 1.6777 &gt; 1.65 definido.
+</p>
+</div>
+<div id="calcular-el-valor-p-e-interpretar-el-resultado" class="section level3">
+<h3>2.2.5 Calcular el valor p e interpretar el resultado</h3>
+<pre class="r"><code>my.p_value &lt;- function(z, vector_param){
+  p = 2 * pt(-abs(z), df = length(hs_europe$HS) - 1)
+  p
+}
+
+my.p_value(z, hs_europe$HS)</code></pre>
+<pre><code>## [1] 0.09977137</code></pre>
+<pre class="r"><code>t.test(hs_europe$HS, mu=mean_europe_h0, conf.level = 0.99)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  hs_europe$HS
+## t = 1.6777, df = 49, p-value = 0.09977
+## alternative hypothesis: true mean is not equal to 5.7
+## 99 percent confidence interval:
+##  5.566795 6.279165
+## sample estimates:
+## mean of x 
+##   5.92298</code></pre>
+<pre class="r"><code>t.test(hs_europe$HS, mu=mean_europe_h0, conf.level = 0.95)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  hs_europe$HS
+## t = 1.6777, df = 49, p-value = 0.09977
+## alternative hypothesis: true mean is not equal to 5.7
+## 95 percent confidence interval:
+##  5.655893 6.190067
+## sample estimates:
+## mean of x 
+##   5.92298</code></pre>
+</div>
+</div>
+<div id="intervalo-de-confianza-de-hs" class="section level2">
+<h2>2.3 Intervalo de confianza de HS</h2>
+<p style="text-align: justify">
+Calcular el intervalo de confianza al 99% del valor de HS. Interpretar el resultado y comparar los resultados con los obtenidos anteriormente.
+</p>
+<p style="text-align: justify">
+<strong>Nota:</strong> Recordad que no podéis usar funciones de R que ya proporcionen el cálculo del intervalo de confianza hecho. Debéis hacer los cálculos manualmente (o bien usar funciones propias que hayáis implementado vosotros mismos.)
+</p>
+<div id="respuesta-6" class="section level4">
+<h4>Respuesta</h4>
+<p style="text-align: justify">
+<p>Para calcular el intervalo de confianza he utilizado una formula que se parece con:</p>
+<div id="average---z-score-standarderror" class="section level5">
+<h5>average +- z-score * standardError</h5>
+Las dos ultimas salidas representan el lower
+</p>
+<pre class="r"><code>n &lt;- length(df$HS)
+m &lt;- mean(df$HS)
+
+conf.level &lt;- 0.99
+z &lt;- qt((1+conf.level)/2, df=n-1)
+se &lt;- sd(df$HS)/sqrt(n)
+ci &lt;- z * se
+
+range_min &lt;- m - ci
+range_max &lt;- m + ci</code></pre>
+<p style="text-align: justify">
+Significa que tenemos 99% de confianza que nuestra población va a estar en entre el rango de <strong>5.144582</strong> y <strong>5.619788</strong>.
+</p>
+<p style="text-align: justify">
+Si nos fijamos en el ejercicio 2.1.5, podemos confirmar que ya habíamos llegado a este valor mientras ejecutabamos la función t.test para confirmar que nuestro resultado anterior estaba adecuado, o sea, el calculo atual también se confirma por el ítem comentado.
+</p>
+</div>
+</div>
+</div>
+<div id="contrastes-entre-regiones" class="section level2">
+<h2>2.4 Contrastes entre regiones</h2>
+<p style="text-align: justify">
+Nos preguntamos si el nivel de felicidad de los países que pertenecen a las regiones europeas (<em>“Western Europe”</em> y <em>“Central and Eastern Europe”</em>) tienen un nivel de felicidad (HS) superior al resto de países de la muestra, con un nivel de confianza del 97%. Seguir los pasos siguientes.
+</p>
+<p style="text-align: justify">
+<strong>Nota:</strong> Recordad que no podéis usar funciones R que calculen el contraste. Debéis realizar los cálculos o bien usar funciones propias que hayáis implementado vosotros mismos.
+</p>
+<div id="respuesta-7" class="section level4">
+<h4>Respuesta</h4>
+</div>
+<div id="preparar-los-datos" class="section level3">
+<h3>2.4.1 Preparar los datos</h3>
+<p style="text-align: justify">
+Crear dos data frames que contengan por separado los países que pertenecen a las regiones europeas mencionadas y por otra parte, el resto de países.
+</p>
+<pre class="r"><code>hs_europe &lt;- subset(df, df$Region==&quot;Central and Eastern Europe&quot; | df$Region==&quot;Western Europe&quot;)
+head(hs_europe)</code></pre>
+<pre><code>##       Country         Region HR    HS   LCI   UCI     GpC  Family      LE
+## 1     Denmark Western Europe  1 7.526 7.460 7.592 1.44178 1.16374 0.79504
+## 2 Switzerland Western Europe  2 7.509 7.428 7.590 1.52733 1.14524 0.86303
+## 3     Iceland Western Europe  3 7.501 7.333 7.669 1.42666 1.09610 0.86733
+## 4      Norway Western Europe  4 7.498 7.421 7.575 1.57744 1.12690 0.79579
+## 5     Finland Western Europe  5 7.413 7.351 7.475 1.40598 1.13464 0.81091
+## 7 Netherlands Western Europe  7 7.339 7.284 7.394 1.46468 1.10476 0.81231
+##   Freedom      GC Generosity      DR
+## 1 0.57941 0.44453    0.36171 2.73939
+## 2 0.58557 0.41203    0.28083 2.69463
+## 3 0.56624 0.14975    0.47678 2.83137
+## 4 0.59609 0.35776    0.37895 2.66465
+## 5 0.57104 0.41004    0.25492 2.82596
+## 7 0.55211 0.29927    0.47416 2.70749</code></pre>
+<pre class="r"><code>hs_no_europe &lt;- subset(df, df$Region!=&quot;Central and Eastern Europe&quot; &amp; df$Region!=&quot;Western Europe&quot;)
+head(hs_no_europe)</code></pre>
+<pre><code>##          Country                          Region HR    HS   LCI   UCI
+## 6         Canada                   North America  6 7.404 7.335 7.473
+## 8    New Zealand       Australia and New Zealand  8 7.334 7.264 7.404
+## 9      Australia       Australia and New Zealand  9 7.313 7.385 8.241
+## 11        Israel Middle East and Northern Africa 11 7.267 7.199 7.335
+## 13 United States                   North America 13 7.104 7.020 7.188
+## 14    Costa Rica     Latin America and Caribbean 14 7.087 6.999 7.175
+##        GpC  Family      LE Freedom      GC Generosity      DR
+## 6  1.44015 1.09610 0.82760 0.57370 0.31329    0.44834 2.70485
+## 8  1.36066 1.17278 0.83096 0.58147 0.41904    0.49401 2.47553
+## 9  1.44443 1.10476 0.85120 0.56837 0.32331    0.47407 2.54650
+## 11 1.33766 0.99537 0.84917 0.36432 0.08728    0.32288 3.31029
+## 13 1.50796 1.04782 0.77900 0.48163 0.14868    0.41077 2.72782
+## 14 1.06879 1.02152 0.76146 0.55225 0.10547    0.22553 3.35168</code></pre>
+</div>
+<div id="escribir-la-hipotesis-nula-y-alternativa-1" class="section level3">
+<h3>2.4.2 Escribir la hipótesis nula y alternativa</h3>
+<div id="hipotesis-nula-h0-2" class="section level5">
+<h5>Hipótesis nula <em>H</em><sub>0</sub></h5>
+<p><strong>H<sub>0</sub> : μ<sub>1</sub> &gt; μ<sub>2</sub> (HS Europe &gt; Rest of the world)</strong></p>
+<p><br /></p>
+</div>
+<div id="hipotesis-alternativa-h1-2" class="section level5">
+<h5>Hipótesis alternativa <em>H</em><sub>1</sub></h5>
+<p><strong>H<sub>1</sub> : μ<sub>1</sub> &lt; μ<sub>2</sub> (HS Europe &lt; Rest of the world)</strong></p>
+</div>
+</div>
+<div id="detallar-que-tipo-de-contraste-usareis" class="section level3">
+<h3>2.4.3 Detallar qué tipo de contraste usaréis</h3>
+<p style="text-align: justify">
+Para el escenario detallado usaremos el contraste de dos muestras, más especificamente <strong>contraste sobre la diferencia de medias</strong>. La opción por tal contraste es teniendo en cuenta que las muestras son de la misma variable (es decir, <em>Happiness Score</em>) y se busca identificar más informaciones de 2 poblaciones distintas.
+</p>
+</div>
+<div id="realizar-los-calculos-de-valor-observado-valor-critico-y-valor-p" class="section level3">
+<h3>2.4.4 Realizar los cálculos de valor observado, valor crítico y valor p</h3>
+<p>Recordando que α = 0.03, veamos el calculo para la definición de los valores pedidos</p>
+<pre class="r"><code>x1 &lt;- hs_europe$HS
+x2 &lt;- hs_no_europe$HS
+n1 &lt;- length(x1)
+n2 &lt;- length(x2)
+
+t &lt;- (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
+t</code></pre>
+<pre><code>## [1] 4.590152</code></pre>
+<pre class="r"><code>distf.num &lt;- (var(x1) / n1 + var(x2) / n2)^2
+distf.denom &lt;- var(x1)^2 / (n1^2 * (n1 - 1)) + var(x2)^2 / (n2^2 * (n2 - 1))
+distf &lt;- distf.num / distf.denom
+distf</code></pre>
+<pre><code>## [1] 114.84</code></pre>
+<pre class="r"><code># Para confirmar que los calculos estan bien hechos miramos t.test
+t.test(hs_europe$HS, hs_no_europe$HS)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  hs_europe$HS and hs_no_europe$HS
+## t = 4.5902, df = 114.84, p-value = 1.14e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.4510744 1.1359323
+## sample estimates:
+## mean of x mean of y 
+##  5.922980  5.129477</code></pre>
+</div>
+</div>
+<div id="contrastes-entre-anos" class="section level2">
+<h2>2.5 Contrastes entre años</h2>
+<p style="text-align: justify">
+Nos preguntamos si el nivel de felicidad ha aumentado del año 2016 al año 2017. Para ello os suministramos el fichero 2017.csv que tenéis adjunto. Debéis comparar los niveles de felicidad del año 2016 con los del 2017 y responder si podemos afirmar con un nivel de confianza del 90% si la felicidad ha aumentado del año 2016 al 2017. Seguir los pasos que se indican a continuación.
+</p>
+<p style="text-align: justify">
+<strong>Nota:</strong> Recordad que no podéis usar funciones R que calculen el contraste. Debéis realizar los cálculos o bien usar funciones propias que hayáis implementado vosotros mismos.
+</p>
+<div id="respuesta-8" class="section level4">
+<h4>Respuesta</h4>
+</div>
+<div id="especificar-que-tipo-de-contraste-aplicareis-y-justificar" class="section level3">
+<h3>2.5.1 Especificar qué tipo de contraste aplicaréis y justificar</h3>
+<p style="text-align: justify">
+Contraste de hipótesis sobre la diferencia de medidas poblacionais - coge 2 muestras para contrastar hipótesis sobre su diferencia (construyendo intervalos de confianza para esta diferencia). No es lo mismo que datos aparejados.
+</p>
+</div>
+<div id="preparar-los-datos-para-aplicar-el-calculo" class="section level3">
+<h3>2.5.2 Preparar los datos para aplicar el cálculo</h3>
+<pre class="r"><code>df2017 &lt;- read.csv(&quot;2017.csv&quot;)
+summary(df2017)</code></pre>
+<pre><code>##         Country    Happiness.Rank  Happiness.Score  Whisker.high  
+##  Afghanistan:  1   Min.   :  1.0   Min.   :2.693   Min.   :2.865  
+##  Albania    :  1   1st Qu.: 39.5   1st Qu.:4.505   1st Qu.:4.608  
+##  Algeria    :  1   Median : 78.0   Median :5.279   Median :5.370  
+##  Angola     :  1   Mean   : 78.0   Mean   :5.354   Mean   :5.452  
+##  Argentina  :  1   3rd Qu.:116.5   3rd Qu.:6.101   3rd Qu.:6.195  
+##  Armenia    :  1   Max.   :155.0   Max.   :7.537   Max.   :7.622  
+##  (Other)    :149                                                  
+##   Whisker.low    Economy..GDP.per.Capita.     Family     
+##  Min.   :2.521   Min.   :0.0000           Min.   :0.000  
+##  1st Qu.:4.375   1st Qu.:0.6634           1st Qu.:1.043  
+##  Median :5.193   Median :1.0646           Median :1.254  
+##  Mean   :5.256   Mean   :0.9847           Mean   :1.189  
+##  3rd Qu.:6.007   3rd Qu.:1.3180           3rd Qu.:1.414  
+##  Max.   :7.480   Max.   :1.8708           Max.   :1.611  
+##                                                          
+##  Health..Life.Expectancy.    Freedom         Generosity    
+##  Min.   :0.0000           Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.3699           1st Qu.:0.3037   1st Qu.:0.1541  
+##  Median :0.6060           Median :0.4375   Median :0.2315  
+##  Mean   :0.5513           Mean   :0.4088   Mean   :0.2469  
+##  3rd Qu.:0.7230           3rd Qu.:0.5166   3rd Qu.:0.3238  
+##  Max.   :0.9495           Max.   :0.6582   Max.   :0.8381  
+##                                                            
+##  Trust..Government.Corruption. Dystopia.Residual
+##  Min.   :0.00000               Min.   :0.3779   
+##  1st Qu.:0.05727               1st Qu.:1.5913   
+##  Median :0.08985               Median :1.8329   
+##  Mean   :0.12312               Mean   :1.8502   
+##  3rd Qu.:0.15330               3rd Qu.:2.1447   
+##  Max.   :0.46431               Max.   :3.1175   
+## </code></pre>
+<pre class="r"><code>df2016 &lt;- read.csv(&quot;2016_clean.csv&quot;)
+summary(df2016)</code></pre>
+<pre><code>##         Country                                Region         HR     
+##  Afghanistan:  1   Sub-Saharan Africa             :38   Min.   :  1  
+##  Albania    :  1   Central and Eastern Europe     :29   1st Qu.: 40  
+##  Algeria    :  1   Latin America and Caribbean    :24   Median : 79  
+##  Angola     :  1   Western Europe                 :21   Mean   : 79  
+##  Argentina  :  1   Middle East and Northern Africa:19   3rd Qu.:118  
+##  Armenia    :  1   Southeastern Asia              : 9   Max.   :157  
+##  (Other)    :151   (Other)                        :17                
+##        HS             LCI             UCI             GpC        
+##  Min.   :2.905   Min.   :2.732   Min.   :3.078   Min.   :0.0000  
+##  1st Qu.:4.404   1st Qu.:4.371   1st Qu.:4.609   1st Qu.:0.6702  
+##  Median :5.314   Median :5.267   Median :5.483   Median :1.0278  
+##  Mean   :5.382   Mean   :5.298   Mean   :5.543   Mean   :0.9539  
+##  3rd Qu.:6.269   3rd Qu.:6.169   3rd Qu.:6.471   3rd Qu.:1.2796  
+##  Max.   :7.526   Max.   :7.460   Max.   :8.241   Max.   :1.8243  
+##                                                                  
+##      Family             LE            Freedom             GC         
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.00000  
+##  1st Qu.:0.6418   1st Qu.:0.3829   1st Qu.:0.2575   1st Qu.:0.06126  
+##  Median :0.8414   Median :0.5966   Median :0.3975   Median :0.10547  
+##  Mean   :0.7935   Mean   :0.5576   Mean   :0.3710   Mean   :0.13762  
+##  3rd Qu.:1.0215   3rd Qu.:0.7299   3rd Qu.:0.4845   3rd Qu.:0.17554  
+##  Max.   :1.1728   Max.   :0.9528   Max.   :0.6085   Max.   :0.50521  
+##                                                                      
+##    Generosity           DR        
+##  Min.   :0.0000   Min.   :0.8179  
+##  1st Qu.:0.1546   1st Qu.:2.0317  
+##  Median :0.2225   Median :2.2907  
+##  Mean   :0.2426   Mean   :2.3258  
+##  3rd Qu.:0.3119   3rd Qu.:2.6646  
+##  Max.   :0.8197   Max.   :3.8377  
+## </code></pre>
+<pre class="r"><code>colnames(df2017)[which(names(df2017) == &quot;Happiness.Score&quot;)] &lt;- &quot;HS&quot;</code></pre>
+</div>
+<div id="escribir-la-hipotesis-nula-y-alternativa-2" class="section level3">
+<h3>2.5.3 Escribir la hipótesis nula y alternativa</h3>
+<div id="hipotesis-nula-h0-3" class="section level5">
+<h5>Hipótesis nula <em>H</em><sub>0</sub></h5>
+<p><strong>H<sub>0</sub> : μ<sub>1</sub> &lt; μ<sub>2</sub> (HS 2016 &lt; HS 2017)</strong></p>
+<p><br /></p>
+</div>
+<div id="hipotesis-alternativa-h1-3" class="section level5">
+<h5>Hipótesis alternativa <em>H</em><sub>1</sub></h5>
+<p><strong>H<sub>1</sub> : μ<sub>1</sub> <span class="math inline">\(\geq\)</span> μ<sub>2</sub> (HS 2016 &gt;= HS 2017)</strong></p>
+</div>
+</div>
+<div id="realizar-los-calculos-apropiados" class="section level3">
+<h3>2.5.4 Realizar los cálculos apropiados</h3>
+<p style="text-align: justify">
+Contraste de hipótesis sobre la diferencia de medidas poblacionais - coge 2 muestras para contrastar hipótesis sobre su diferencia (construyendo intervalos de confianza para esta diferencia). No es lo mismo que datos aparejados.
+</p>
+<pre class="r"><code>x1 &lt;- df2016$HS
+x2 &lt;- df2017$HS
+n1 &lt;- length(x1)
+n2 &lt;- length(x2)
+
+t &lt;- (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
+t</code></pre>
+<pre><code>## [1] 0.2188824</code></pre>
+<pre class="r"><code>distf.num &lt;- (var(x1) / n1 + var(x2) / n2)^2
+distf.denom &lt;- var(x1)^2 / (n1^2 * (n1 - 1)) + var(x2)^2 / (n2^2 * (n2 - 1))
+distf &lt;- distf.num / distf.denom
+distf</code></pre>
+<pre><code>## [1] 309.9958</code></pre>
+<pre class="r"><code># Para confirmar que los calculos estan bien hechos miramos t.test
+t.test(x1, x2)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  x1 and x2
+## t = 0.21888, df = 310, p-value = 0.8269
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.2250275  0.2813582
+## sample estimates:
+## mean of x mean of y 
+##  5.382185  5.354019</code></pre>
 </div>
 </div>
 </div>

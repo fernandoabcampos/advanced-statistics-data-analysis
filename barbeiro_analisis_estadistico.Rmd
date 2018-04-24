@@ -263,7 +263,6 @@ Primeramente el calculo manual (y luego usando la libreria del p.test para valid
 mean_informed <- 5.0
 z = my.contrast(df$HS, mean_informed)
 
-# 2 por ser bilateral
 2 * pt(-abs(z), df = length(df$HS) - 1)
 
 # Confirmando p value
@@ -306,5 +305,210 @@ Indica la hipótesis de partida, en este caso, la hipótesis de que los *HS* de 
 Indica que se ha producido cambio con respecto a la situación propuesta inicialmente.
 </p>
 
-**H<sub>1</sub> : &mu; $\leq$ 5.7 (HS)**
+**H<sub>1</sub> : &mu; $\leq$ 5.7 (HS-Europe)**
+
+### 2.2.2 Detallar qué tipo de test aplicaréis
+<p style="text-align: justify">
+El tipo de test, otra vez, será el contraste de hipótesis,  donde tendremos una funcción pivotal *Z* que será explicada más adelante en el codigo. Si dentro del margen de error que nos permitimos admitir (nivel de significación: inicialmente 1% y después 5%, conforme enunciado), hay coincidencia, aceptaremos la hipótesis y en caso contrario la rechazaremos.
+</p>
+<p style="text-align: justify">
+Dicho nuestro datos tienen: &alpha; = 0,01. / &alpha; = 0.05 en un según momento.
+</p>
+<p style="text-align: justify">
+He elegido el contraste de hipótesis porque mirando hacia el contraste de varianza, indicaba para la ocurrencia de más de 2 grupos - y lo mismo para análisis de muestreo.
+</p>
+
+
+### 2.2.3 Realizar los cálculos del estadístico de contraste observado y el valor crítico.
+<p style="text-align: justify">
+He realizado un filtro para poder tener un subset con los datos que son especificamente de países de las regiones indicadas y he aplicado las mismas funciones anteriormente creadas. Veamos:
+</p>
+```{r chunck10}
+hs_europe <- subset(df, df$Region=="Central and Eastern Europe" | df$Region=="Western Europe")
+head(hs_europe)
+mean_europe_h0 <- 5.7
+z = my.contrast(hs_europe$HS, mean_europe_h0)
+```
+
+<p style="text-align: justify">
+Dado que hay 2 **niveles de significación**, especificamente 1% y 5% que queremos mirar, quedaremos con:
+</p>
+
+*Valor crítico para 1%*: **2.33**
+<br />
+*Valor crítico para 5%*: **1.65**
+
+<p style="text-align: justify">
+La manera para encontrar ha sido utilizando la tabla de distribución normal estandar. En el eje de filas, encontramos 2.3 y 1.6 y en el eje de columnas _._3 y _._5.
+</p>
+
+### 2.2.4 Interpretar el resultado
+
+<p style="text-align: justify">
+En primer lugar, debemos decir que este es un resultado muy interesante, con un nivel de confianza 99% tendríamos como rechazado la hipótesis nula H<sub>0</sub>, esto porque el valor crítico de 2.3 es > que el valor del estadístico de contraste 1.6777. Mientras tanto, con un nível de confianza 95% se podría confirmar / aceptar la hipótesis nula, o sea, *&mu; > 5.7* porque 1.6777 > 1.65 definido. 
+</p>
+
+### 2.2.5 Calcular el valor p e interpretar el resultado
+
+```{r chunck11}
+my.p_value <- function(z, vector_param){
+  p = 2 * pt(-abs(z), df = length(hs_europe$HS) - 1)
+  p
+}
+
+my.p_value(z, hs_europe$HS)
+t.test(hs_europe$HS, mu=mean_europe_h0, conf.level = 0.99)
+t.test(hs_europe$HS, mu=mean_europe_h0, conf.level = 0.95)
+```
+
+
+
+## 2.3 Intervalo de confianza de HS
+
+<p style="text-align: justify">
+Calcular el intervalo de confianza al 99% del valor de HS. Interpretar el resultado y comparar los resultados con los obtenidos anteriormente.
+</p>
+<p style="text-align: justify">
+**Nota:** Recordad que no podéis usar funciones de R que ya proporcionen el cálculo del intervalo de confianza hecho. Debéis hacer los cálculos manualmente (o bien usar funciones propias que hayáis implementado vosotros mismos.)
+</p>
+
+
+#### Respuesta
+<p style="text-align: justify">
+Para calcular el intervalo de confianza he utilizado una formula que se parece con:
+
+##### average +- z-score * standardError
+
+Las dos ultimas salidas representan el lower
+</p>
+
+```{r chunck12}
+n <- length(df$HS)
+m <- mean(df$HS)
+
+conf.level <- 0.99
+z <- qt((1+conf.level)/2, df=n-1)
+se <- sd(df$HS)/sqrt(n)
+ci <- z * se
+
+range_min <- m - ci
+range_max <- m + ci
+```
+<p style="text-align: justify">
+Significa que tenemos 99% de confianza que nuestra población va a estar en entre el rango de **5.144582** y **5.619788**. 
+</p>
+<p style="text-align: justify">
+Si nos fijamos en el ejercicio 2.1.5, podemos confirmar que ya habíamos llegado a este valor mientras ejecutabamos la función t.test para confirmar que nuestro resultado anterior estaba adecuado, o sea, el calculo atual también se confirma por el ítem comentado.
+</p>
+
+## 2.4 Contrastes entre regiones
+<p style="text-align: justify">
+Nos preguntamos si el nivel de felicidad de los países que pertenecen a las regiones europeas (*“Western Europe”* y *“Central and Eastern Europe”*) tienen un nivel de felicidad (HS) superior al resto de países de la muestra, con un nivel de confianza del 97%. Seguir los pasos siguientes.
+</p>
+<p style="text-align: justify">
+**Nota:** Recordad que no podéis usar funciones R que calculen el contraste. Debéis realizar los cálculos o bien usar funciones propias que hayáis implementado vosotros mismos.
+</p>
+
+#### Respuesta
+### 2.4.1 Preparar los datos
+<p style="text-align: justify">
+Crear dos data frames que contengan por separado los países que pertenecen a las regiones europeas mencionadas y por otra parte, el resto de países.
+</p>
+
+```{r chunck13}
+hs_europe <- subset(df, df$Region=="Central and Eastern Europe" | df$Region=="Western Europe")
+head(hs_europe)
+hs_no_europe <- subset(df, df$Region!="Central and Eastern Europe" & df$Region!="Western Europe")
+head(hs_no_europe)
+```
+
+### 2.4.2 Escribir la hipótesis nula y alternativa
+##### Hipótesis nula *H*<sub>0</sub>
+**H<sub>0</sub> : &mu;<sub>1</sub> > &mu;<sub>2</sub> (HS Europe > Rest of the world)**
+
+<br />
+
+##### Hipótesis alternativa *H*<sub>1</sub>
+**H<sub>1</sub> : &mu;<sub>1</sub> < &mu;<sub>2</sub> (HS Europe < Rest of the world)**
+
+###2.4.3 Detallar qué tipo de contraste usaréis
+<p style="text-align: justify">
+Para el escenario detallado usaremos el contraste de dos muestras, más especificamente **contraste sobre la diferencia de medias**. La opción por tal contraste es teniendo en cuenta que las muestras son de la misma variable (es decir, *Happiness Score*) y se busca identificar más informaciones de 2 poblaciones distintas.
+</p>
+
+###2.4.4 Realizar los cálculos de valor observado, valor crítico y valor p
+Recordando que &alpha; = 0.03, veamos el calculo para la definición de los valores pedidos
+```{r chunck14}
+x1 <- hs_europe$HS
+x2 <- hs_no_europe$HS
+n1 <- length(x1)
+n2 <- length(x2)
+
+t <- (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
+t
+
+distf.num <- (var(x1) / n1 + var(x2) / n2)^2
+distf.denom <- var(x1)^2 / (n1^2 * (n1 - 1)) + var(x2)^2 / (n2^2 * (n2 - 1))
+distf <- distf.num / distf.denom
+distf
+
+# Para confirmar que los calculos estan bien hechos miramos t.test
+t.test(hs_europe$HS, hs_no_europe$HS)
+```
+
+
+## 2.5 Contrastes entre años
+<p style="text-align: justify">
+Nos preguntamos si el nivel de felicidad ha aumentado del año 2016 al año 2017. Para ello os suministramos el fichero 2017.csv que tenéis adjunto. Debéis comparar los niveles de felicidad del año 2016 con los del 2017 y responder si podemos afirmar con un nivel de confianza del 90% si la felicidad ha aumentado del año 2016 al 2017. Seguir los pasos que se indican a continuación.
+</p>
+<p style="text-align: justify">
+**Nota:** Recordad que no podéis usar funciones R que calculen el contraste. Debéis realizar los cálculos o bien usar funciones propias que hayáis implementado vosotros mismos.
+</p>
+
+#### Respuesta
+###2.5.1 Especificar qué tipo de contraste aplicaréis y justificar
+<p style="text-align: justify">
+Contraste de hipótesis sobre la diferencia de medidas poblacionais - coge 2 muestras para contrastar hipótesis sobre su diferencia (construyendo intervalos de confianza para esta diferencia). No es lo mismo que datos aparejados.
+</p>
+###2.5.2 Preparar los datos para aplicar el cálculo
+```{r chunck15}
+df2017 <- read.csv("2017.csv")
+summary(df2017)
+df2016 <- read.csv("2016_clean.csv")
+summary(df2016)
+
+colnames(df2017)[which(names(df2017) == "Happiness.Score")] <- "HS"
+
+```
+###2.5.3 Escribir la hipótesis nula y alternativa
+##### Hipótesis nula *H*<sub>0</sub>
+**H<sub>0</sub> : &mu;<sub>1</sub> < &mu;<sub>2</sub> (HS 2016 < HS 2017)**
+
+<br />
+
+##### Hipótesis alternativa *H*<sub>1</sub>
+**H<sub>1</sub> : &mu;<sub>1</sub> $\geq$ &mu;<sub>2</sub> (HS 2016 >= HS 2017)**
+
+###2.5.4 Realizar los cálculos apropiados
+<p style="text-align: justify">
+Contraste de hipótesis sobre la diferencia de medidas poblacionais - coge 2 muestras para contrastar hipótesis sobre su diferencia (construyendo intervalos de confianza para esta diferencia). No es lo mismo que datos aparejados.
+</p>
+
+```{r chunck16}
+x1 <- df2016$HS
+x2 <- df2017$HS
+n1 <- length(x1)
+n2 <- length(x2)
+
+t <- (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
+t
+
+distf.num <- (var(x1) / n1 + var(x2) / n2)^2
+distf.denom <- var(x1)^2 / (n1^2 * (n1 - 1)) + var(x2)^2 / (n2^2 * (n2 - 1))
+distf <- distf.num / distf.denom
+distf
+# Para confirmar que los calculos estan bien hechos miramos t.test
+t.test(x1, x2)
+```
+
 
