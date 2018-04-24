@@ -219,7 +219,7 @@ Indica que se ha producido cambio con respecto a la situación propuesta inicial
 
 ### 2.1.1 Escribir qué tipo de contraste aplicaréis
 <p style="text-align: justify">
-El tipo de contraste utilizado será el contraste de hipótesis, o sea, comparar predicciones con la realidad que observamos. Si dentro del margen de error que nos permitimos admitir (nivel de significación), hay coincidencia, aceptaremos la hipótesis y en caso contrario la rechazaremos.
+El tipo de contraste utilizado será el contraste de hipótesis, o sea, comparar predicciones con la realidad que observamos y además, como tenemos *N* > 30, tendremos una funcción pivotal *Z* que será explicada más adelante en el codigo. Si dentro del margen de error que nos permitimos admitir (nivel de significación), hay coincidencia, aceptaremos la hipótesis y en caso contrario la rechazaremos.
 </p>
 <p style="text-align: justify">
 Dentro del tema de contraste de hipótesis, tenemos que el nivel de significación &alpha; de un contraste es el error máximo de tipo I (rechazar *H<sub>0</sub>* cuando ésta es cierta) que estamos dispuestos a asumir, o sea, 1%, según el enunciado. Luego: &alpha; = 0,01. En mi punto de vista, tenemos un contraste conservador que tiende a aceptar la *hipótesis nula*.
@@ -240,7 +240,21 @@ mean_informed_h0 <- 5.0
 z = my.contrast(df$HS, mean_informed_h0)
 
 ```
+<p style="text-align: justify">
+Para nuestro ejemplo, como hemos definido un contraste bilateral *(-z, z)*, tendrémos la conocida probabilidad de dos colas, donde, para definir **valor crítico**, tendrémos &alpha; = 0,01, luego:  *z<sub>&alpha;/2</sub>* = 2.576 y -2.576 (datos sacados de la tabla distribución normal).
+</p>
 
-&sigma;
+
+### 2.1.4 Interpretar el resultado
+<p style="text-align: justify">
+Si nos fijamos que tenemos dos colas y estamos siguiendo las tablas de distribución normal respecto el *valor crítico* que hemos definido en el paso anterior, ahora es necesario ubicar el valor obtenido en el cálculo del estadístico de contraste (función Pivotal).
+</p>
+<p style="text-align: justify">
+Para ello se puede usar una **curva de distribución**, donde tendrémos 2 zonas distintas: *Región de Rechazo o de Aceptación* (respectivamente vamos a llamar de RR y RA). RR sirvirá para los valores inferiores y superiores al valor crítico, esto es, z < -2.576 o z > 2.576. La región por el medio será la RA.
+</p>
+<p style="text-align: justify">
+Como nuestro cálculo resulta en 4.19451 significa que estamos ubicados por arriba del Rechazo, con esto, deberíamos rechazamos la hipótesis nula *H<sub>0</sub>*.
+</p>
+
 
 
