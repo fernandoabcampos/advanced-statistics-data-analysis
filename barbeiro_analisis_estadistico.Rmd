@@ -257,4 +257,17 @@ Como nuestro cálculo resulta en 4.19451 significa que estamos ubicados por arri
 </p>
 
 
+### 2.1.5 Calcular el valor p y explicar cómo se interpreta su resultado
+<p style="text-align: justify">
+Primeramente el calculo manual (y luego usando la libreria del p.test para validar):
+</p>
+```{r chunck9}
+mean_informed <- 5.0
+z = my.contrast(df$HS, mean_informed)
+
+# 2 por ser bilateral
+2 * pt(-abs(z), df = length(df$HS) - 1)
+
+t.test(df$HS, mu=5.0, conf.level = 0.99)
+```
 
