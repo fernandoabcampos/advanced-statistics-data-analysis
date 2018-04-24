@@ -197,10 +197,8 @@ Para poder responder a esta pregunta, aplicaremos los métodos de contrastes de 
 Como sugerencia, si lo deseáis, podéis crear una función propia que realice los cálculos y esta función la podréis usar a lo largo de la actividad (en el caso de que sea reutilizable).
 </p>
 
-
-### 2.1.1 Escribir la hipótesis nula y alternativa
-
 #### Respuesta
+### 2.1.1 Escribir la hipótesis nula y alternativa
 ##### Hipótesis nula *H*<sub>0</sub>
 <p style="text-align: justify">
 Indica la hipótesis de partida, en este caso, la hipótesis de que los *HS* de todos los países del mundo es 5.0.
@@ -274,3 +272,39 @@ t.test(df$HS, mu=5.0, conf.level = 0.99)
 <p style="text-align: justify">
 Como tenemos un contraste bilateral y hemos definido (conforme indica el codigo arriba) un valor de contraste de 4.1945, este valor sirve para definir el rango de aceptación, esto es, aceptamos la hipótesis nula si el p valor está entre -4.1945 y 4.1945. En la secuencia se hizo manualmente el calculo del p-value y obtuvimos el valor de 4.5721. Por lo tanto, en cima del rango de aceptación, o sea, tenemos que rechazarlo.
 </p>
+
+<p style="text-align: justify">
+Para asegurar que los calculos estaban bien hechos, he utilizado la función de la libreria t.test y los resultados han coincidido.
+</p>
+
+
+## 2.2 Media de HS de los países europeos
+
+<p style="text-align: justify">
+¿Podemos afirmar con un nivel de confianza del 99% que el valor medio de HS de los países europeos es superior a 5.7? ¿Y al 95%?
+</p>
+<p style="text-align: justify">
+**Nota:** Considerar los países de la muestra que pertenezcan a las regiones *“Central and Eastern Europe”* y *“Western Europe”*.
+</p>
+<p style="text-align: justify">
+Al igual que en la pregunta anterior, no podéis usar funciones de R que ya proporcionen el contraste hecho. Debéis hacer los cálculos manualmente (o bien usar funciones propias que hayáis implementado vosotros mismos.)
+</p>
+
+#### Respuesta
+### 2.2.1 Escribir la hipótesis nula y la hipótesis alternativa
+##### Hipótesis nula *H*<sub>0</sub>
+<p style="text-align: justify">
+Indica la hipótesis de partida, en este caso, la hipótesis de que los *HS* de todos los países europeos es de 5.7.
+</p>
+
+**H<sub>0</sub> : &mu; > 5.7 (HS-Europe)**
+
+<br />
+
+##### Hipótesis alternativa *H*<sub>1</sub>
+<p style="text-align: justify">
+Indica que se ha producido cambio con respecto a la situación propuesta inicialmente.
+</p>
+
+**H<sub>1</sub> : &mu; $\leq$ 5.7 (HS)**
+
