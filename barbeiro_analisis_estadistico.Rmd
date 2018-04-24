@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load_libraries, include=FALSE}
 library(knitr)
+#\usepackage{mathtools}
 ```
 # Introducción
 
@@ -28,7 +29,7 @@ Recordar que **no** se pueden realizar listados completos de los datos en la sol
 
 ```{r chunck1}
 # Loading the dataframe
-df <- read.csv("../2016_clean.csv")
+df <- read.csv("2016_clean.csv")
 head(df)
 ```
 
@@ -216,7 +217,30 @@ Indica que se ha producido cambio con respecto a la situación propuesta inicial
 
 **H<sub>1</sub> : &mu; $\neq$ 5.0 (HS)**
 
+### 2.1.1 Escribir qué tipo de contraste aplicaréis
+<p style="text-align: justify">
+El tipo de contraste utilizado será el contraste de hipótesis, o sea, comparar predicciones con la realidad que observamos. Si dentro del margen de error que nos permitimos admitir (nivel de significación), hay coincidencia, aceptaremos la hipótesis y en caso contrario la rechazaremos.
+</p>
+<p style="text-align: justify">
+Dentro del tema de contraste de hipótesis, tenemos que el nivel de significación &alpha; de un contraste es el error máximo de tipo I (rechazar *H<sub>0</sub>* cuando ésta es cierta) que estamos dispuestos a asumir, o sea, 1%, según el enunciado. Luego: &alpha; = 0,01. En mi punto de vista, tenemos un contraste conservador que tiende a aceptar la *hipótesis nula*.
+</p>
 
+### 2.1.3 Realizar los cálculos del contraste de hipótesis: calcular el estadístico de contraste observado y el valor crítico
+<p style="text-align: justify">
+Realizaremos primero el calculo del *estadístico de contraste* recordando que tal valor se usa para decidir si rechazamos la hipótesis nula o no.
+</p>
 
+```{r chunck8}
+my.contrast <- function(x, mean_hipothesis){
+  z <- (mean(x) - mean_hipothesis) / (sd(x) / sqrt(length(x)))
+  print(paste("Contraste estadístico: ", z))
+  z
+}
+mean_informed_h0 <- 5.0
+z = my.contrast(df$HS, mean_informed_h0)
+
+```
+
+&sigma;
 
 
