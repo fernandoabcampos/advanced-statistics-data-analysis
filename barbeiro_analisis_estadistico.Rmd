@@ -268,6 +268,9 @@ z = my.contrast(df$HS, mean_informed)
 # 2 por ser bilateral
 2 * pt(-abs(z), df = length(df$HS) - 1)
 
+# Confirmando p value
 t.test(df$HS, mu=5.0, conf.level = 0.99)
 ```
-
+<p style="text-align: justify">
+Como tenemos un contraste bilateral y hemos definido (conforme indica el codigo arriba) un valor de contraste de 4.1945, este valor sirve para definir el rango de aceptación, esto es, aceptamos la hipótesis nula si el p valor está entre -4.1945 y 4.1945. En la secuencia se hizo manualmente el calculo del p-value y obtuvimos el valor de 4.5721. Por lo tanto, en cima del rango de aceptación, o sea, tenemos que rechazarlo.
+</p>
